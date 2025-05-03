@@ -9,8 +9,6 @@ This app was developed by having 2 things in mind
 
 ### 🎨 UI
 
-| Feature/Task                                                             | Description | Status | Priority |
-|--------------------------------------------------------------------------|-------------|--------|----------|
 | Feature/Task                                                             | Description                       | Status | Priority |
 |--------------------------------------------------------------------------|-----------------------------------|--------|----------|
 | Register a product with barcode photo upload                             |                                   | X      | HIGH     |
