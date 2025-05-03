@@ -1,0 +1,21 @@
+# Node modules
+node_modules/
+**/node_modules/
+
+# Logs
+*.log
+
+# Build output
+dist/
+build/
+
+# Environment files
+.env
+
+# Docker volumes
+mongo_data/
+
+# Python/IDE files (if applicable)
+__pycache__/
+*.pyc
+.vscode/

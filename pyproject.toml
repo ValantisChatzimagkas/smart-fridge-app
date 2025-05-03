@@ -1,0 +1,24 @@
+[project]
+name = "my-food-waste-tracker"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "valantis",email = "valantis.hatzimagkas@gmail.com"}
+]
+readme = "README.md"
+requires-python = ">=3.12,<4.0"
+dependencies = [
+    "fastapi[standard] (>=0.115.12,<0.116.0)",
+    "python-dotenv (>=1.1.0,<2.0.0)",
+    "beanie (>=1.29.0,<2.0.0)",
+    "aiofiles (>=24.1.0,<25.0.0)",
+    "pillow (>=11.2.1,<12.0.0)",
+    "pyzbar (>=0.1.9,<0.2.0)",
+    "requests (>=2.32.3,<3.0.0)",
+    "dict-deep (>=4.1.2,<5.0.0)"
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
