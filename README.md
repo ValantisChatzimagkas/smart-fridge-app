@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/ValantisChatzimagkas/smart-fridge-app/actions/workflows/ci.yml/badge.svg)](https://github.com/ValantisChatzimagkas/smart-fridge-app/actions/workflows/ci.yml)
 
-Track the ingredients in your fridge to reduce food waste and avoid eating food that has gone bad. Register products by snapping a photo of their barcode; product details are looked up automatically.
+Track the ingredients in your fridge to reduce food waste and avoid eating food that has gone bad. Barcode-based product registration (via Open Food Facts) is in progress.
 
 ### Why
 This app was built with two goals in mind:
