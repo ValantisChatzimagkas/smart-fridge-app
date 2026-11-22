@@ -33,7 +33,7 @@ export interface IngredientCardProps {
     _id: string;
     name: string;
     quantity: { value: number; unit: QuantityUnitOptions };
-    openedDate: string;
+    openedDate: string | null;
     expiryDate: string;
     status: IngredientStatus;
     tags: FoodCategoryTagsOptions[];
@@ -118,18 +118,26 @@ const IngredientCard: React.FC<IngredientCardComponentProps> = ({ ingredient, on
      */
     const handleSave = async () => {
         try {
-            const response = await fetch(`${BASE_URL}/ingredient/ingredients/${editedIngredient._id}`, {
+            const response = await fetch(`${BASE_URL}/ingredients/${editedIngredient._id}`, {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify(editedIngredient)
+                body: JSON.stringify({
+                    name: editedIngredient.name,
+                    quantity: editedIngredient.quantity,
+                    expiryDate: editedIngredient.expiryDate,
+                    openedDate: editedIngredient.openedDate || null,
+                    tags: editedIngredient.tags
+                })
             });
 
             if (!response.ok) {
                 throw new Error("Failed to update ingredient");
             }
 
+            // Status is derived server-side, so refresh the card from the response.
+            setEditedIngredient(await response.json());
             setEditMode(false);
         } catch (error) {
             console.error(error);
@@ -150,7 +158,7 @@ const IngredientCard: React.FC<IngredientCardComponentProps> = ({ ingredient, on
      */
     const handleDelete = async () => {
         try {
-            const response = await fetch(`${BASE_URL}/ingredient/${editedIngredient._id}`, {
+            const response = await fetch(`${BASE_URL}/ingredients/${editedIngredient._id}`, {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json"
@@ -250,7 +258,7 @@ const IngredientCard: React.FC<IngredientCardComponentProps> = ({ ingredient, on
                             <input
                                 className="text-black p-1 rounded"
                                 type="date"
-                                value={editedIngredient.openedDate}
+                                value={editedIngredient.openedDate ?? ""}
                                 onChange={(e) => updateField("openedDate", e.target.value)}
                             />
                         ) : (

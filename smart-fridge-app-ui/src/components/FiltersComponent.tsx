@@ -61,7 +61,7 @@ const ToggleableFilterComponent = ({ setIngredientsList }: FiltersComponentProps
       .join('&');
       
     if (appliedFilters !== "") {
-      const ingredientsEndpoint = `${BASE_URL}/ingredient/all?${appliedFilters}`;
+      const ingredientsEndpoint = `${BASE_URL}/ingredients?${appliedFilters}`;
       const requestOptions = {
         method: 'GET',
         headers: {
