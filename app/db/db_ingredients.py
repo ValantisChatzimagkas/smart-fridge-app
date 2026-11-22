@@ -1,34 +1,16 @@
 from beanie import PydanticObjectId
-from beanie.operators import In
 from fastapi import status
 from fastapi.exceptions import HTTPException
 
-from app.models.ingredients import IngredientsDocument, IngredientStatusOptions
+from app.models.ingredients import IngredientCreate, IngredientsDocument
 
 
-async def insert_ingredient(data: IngredientsDocument):
-    await data.create()
-    return {"message": "Ingredient added successfully"}
+async def insert_ingredient(data: IngredientCreate) -> IngredientsDocument:
+    return await IngredientsDocument(**data.model_dump()).create()
 
 
 async def get_all_ingredients():
     ingredients = await IngredientsDocument.find_all().to_list()
-    return ingredients
-
-
-async def get_all_ingredients_by_ingredient_status(
-    ingredient_status: list[IngredientStatusOptions],
-):
-    if len(ingredient_status) == 1:
-        ingredients = await IngredientsDocument.find(
-            IngredientsDocument.status == ingredient_status[0]
-        ).to_list()
-
-    else:
-        ingredients = await IngredientsDocument.find(
-            In(IngredientsDocument.status, [status.value for status in ingredient_status])
-        ).to_list()
-
     return ingredients
 
 
@@ -68,4 +50,3 @@ async def delete_ingredient_by_id(ingredient_id: PydanticObjectId):
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Ingredient not found")
 
     await ingredient.delete()
-    return {"message": f"Ingredient with id {ingredient_id} deleted successfully"}

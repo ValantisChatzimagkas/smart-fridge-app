@@ -1,3 +1,5 @@
+from functools import lru_cache
+
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -11,6 +13,8 @@ class Settings(BaseSettings):
     mongo_db_name: str = "ingredients_db"
     # Comma-separated list of origins allowed by CORS.
     cors_origins: str = "http://localhost:5173"
+    # An ingredient is "close to expire" when it expires within this many days.
+    expiry_warn_days: int = 3
 
     @property
     def mongo_uri(self) -> str:
@@ -24,5 +28,6 @@ class Settings(BaseSettings):
         return [o.strip() for o in self.cors_origins.split(",") if o.strip()]
 
 
+@lru_cache
 def get_settings() -> Settings:
     return Settings()
