@@ -1,14 +1,12 @@
-from typing import List, Union, Optional
+from typing import Annotated
+
 from beanie import PydanticObjectId
 from fastapi import APIRouter, Query
-from app.models.ingredients import IngredientsDocument, IngredientUpdate
-from app.db import db_ingredients
-from app.models.ingredients import IngredientStatusOptions
-from fastapi.exceptions import HTTPException
 
-router = APIRouter(
-    prefix="/ingredient", tags=["ingredient"]
-)
+from app.db import db_ingredients
+from app.models.ingredients import IngredientsDocument, IngredientStatusOptions
+
+router = APIRouter(prefix="/ingredient", tags=["ingredient"])
 
 
 @router.post("/new")
@@ -17,22 +15,24 @@ async def insert_ingredient(ingredient_data: IngredientsDocument):
     return {"message": "Ingredient added successfully"}
 
 
-@router.get("/all", response_model=List[IngredientsDocument])
+@router.get("/all", response_model=list[IngredientsDocument])
 async def get_all_ingredients(
-    ingredient_status: Optional[List[IngredientStatusOptions]] = Query(
-        default=None,
-        description="Filter by one or more statuses (e.g., expired, not_expired)"
-    )
+    ingredient_status: Annotated[
+        list[IngredientStatusOptions] | None,
+        Query(description="Filter by one or more statuses (e.g., expired, not_expired)"),
+    ] = None,
 ):
     if ingredient_status is None:
         ingredients = await db_ingredients.get_all_ingredients()
     else:
-        ingredients = await  db_ingredients.get_all_ingredients_by_ingredient_status(ingredient_status)
+        ingredients = await db_ingredients.get_all_ingredients_by_ingredient_status(
+            ingredient_status
+        )
     return ingredients
 
 
 @router.get("/{id}", response_model=IngredientsDocument)
-async def get_all_ingredients(id: PydanticObjectId):
+async def get_ingredient(id: PydanticObjectId):
     ingredient = await db_ingredients.get_ingredient_by_id(id)
     return ingredient
 
