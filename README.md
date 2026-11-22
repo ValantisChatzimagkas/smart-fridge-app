@@ -6,12 +6,10 @@ Track the ingredients in your fridge and see which are expired or close to expir
 
 ## Features
 
-- Create, edit and delete ingredients (name, quantity and unit, opened and expiry dates, category tags).
-- Each ingredient carries an expiry status: `not_expired`, `close_to_expire` or `expired`.
+- Add, edit and delete ingredients (name, quantity and unit, expiry date, optional opened date and category tags).
+- Expiry status (`not_expired`, `close_to_expire`, `expired`) is derived by the API from the expiry date each time ingredients are read. An ingredient is close to expiring when it expires within `EXPIRY_WARN_DAYS` days (default 3), including today.
 - Filter the list by one or more statuses.
-- REST API with interactive OpenAPI docs and a `/health` endpoint.
-
-The UI currently lists, edits, deletes and filters ingredients. Creating them is only possible through the API (`POST /ingredient/new`). Status is stored as submitted; it is not yet derived from the expiry date.
+- REST API (`/ingredients`, `/ingredients/{id}`) with interactive OpenAPI docs and a `/health` endpoint.
 
 ## Architecture
 
@@ -30,7 +28,7 @@ docker compose up --build
 - API docs: http://localhost:8000/docs
 - Health check: http://localhost:8000/health
 
-Host ports, Mongo credentials, allowed CORS origins and the API URL used by the UI are all set in `.env`. If you change `API_PORT` or `UI_PORT`, update `VITE_API_URL` and `CORS_ORIGINS` to match.
+Host ports, Mongo credentials, allowed CORS origins, the expiry warning window (`EXPIRY_WARN_DAYS`) and the API URL used by the UI are all set in `.env`. If you change `API_PORT` or `UI_PORT`, update `VITE_API_URL` and `CORS_ORIGINS` to match.
 
 ## Running tests
 
@@ -51,7 +49,7 @@ npm run lint
 npm run build
 ```
 
-The backend tests do not need MongoDB. They cover settings, the partial-update logic and request validation; routes that read or write the database are not covered yet.
+The backend tests do not need MongoDB. They cover the expiry status rules, settings, the partial-update logic and the API routes with the database layer mocked; the Mongo queries themselves are not covered yet.
 
 ## Design decisions
 
@@ -62,8 +60,6 @@ The backend tests do not need MongoDB. They cover settings, the partial-update l
 
 ## Roadmap
 
-- Form in the UI to register ingredients.
-- Compute ingredient status from the expiry date instead of trusting the client.
 - Integration tests for the database-backed routes.
 - Authentication and per-user data.
 - Barcode lookup via Open Food Facts (an earlier prototype was removed because it was broken and unused).
