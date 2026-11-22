@@ -1,24 +1,25 @@
 [project]
-name = "my-food-waste-tracker"
+name = "smart-fridge-app"
 version = "0.1.0"
-description = ""
-authors = [
-    {name = "valantis",email = "valantis.hatzimagkas@gmail.com"}
-]
+description = "Track fridge ingredients and their expiry status to reduce food waste"
 readme = "README.md"
-requires-python = ">=3.12,<4.0"
+requires-python = ">=3.12"
 dependencies = [
-    "fastapi[standard] (>=0.115.12,<0.116.0)",
-    "python-dotenv (>=1.1.0,<2.0.0)",
-    "beanie (>=1.29.0,<2.0.0)",
-    "aiofiles (>=24.1.0,<25.0.0)",
-    "pillow (>=11.2.1,<12.0.0)",
-    "pyzbar (>=0.1.9,<0.2.0)",
-    "requests (>=2.32.3,<3.0.0)",
-    "dict-deep (>=4.1.2,<5.0.0)"
+    "fastapi[standard]>=0.115.12,<0.116",
+    "beanie>=1.29.0,<2",
+    "pydantic-settings>=2.6,<3",
 ]
 
+[dependency-groups]
+dev = [
+    "pytest>=8.3",
+]
 
-[build-system]
-requires = ["poetry-core>=2.0.0,<3.0.0"]
-build-backend = "poetry.core.masonry.api"
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "W", "F", "I", "UP", "B"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
