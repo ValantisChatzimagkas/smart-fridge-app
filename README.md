@@ -1,9 +1,26 @@
 # Smart Fridge App
 
-### Description
-This app was developed by having 2 things in mind
-1. Solve food waste
-2. Trying to find a project where I could get my hands on React
+[![CI](https://github.com/ValantisChatzimagkas/smart-fridge-app/actions/workflows/ci.yml/badge.svg)](https://github.com/ValantisChatzimagkas/smart-fridge-app/actions/workflows/ci.yml)
+
+Track the ingredients in your fridge to reduce food waste and avoid eating food that has gone bad. Register products by snapping a photo of their barcode; product details are looked up automatically.
+
+### Why
+This app was built with two goals in mind:
+1. Reduce food waste
+2. Get hands-on experience with React
+
+### Tech Stack
+- **Frontend:** React 19, TypeScript, Vite, Tailwind CSS
+- **Backend:** FastAPI, Beanie (MongoDB ODM), pyzbar (barcode decoding)
+- **Database:** MongoDB
+- **Infra:** Docker Compose
+
+### Getting Started
+```bash
+docker compose up --build
+```
+- UI: http://localhost:5173
+- API docs: http://localhost:8000/docs
 
 ## 🚧 Roadmap
 
@@ -32,3 +49,6 @@ This app was developed by having 2 things in mind
 | Expire/Close to expire alerts          | Implement service that sends alerts about expired or close to expire alerts                                                                                                                                       | X      | MEDIUM   |
 | Close to expire recipes recommendation | Use a database that can recommend recipes using the close to expire products                                                                                                                                      | X      | LOW      |
 
+## License
+
+[MIT](LICENSE)

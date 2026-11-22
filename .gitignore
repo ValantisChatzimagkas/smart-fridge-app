@@ -19,3 +19,7 @@ mongo_data/
 __pycache__/
 *.pyc
 .vscode/
+
+# IDE
+.idea/
+.vscode/
