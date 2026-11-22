@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
 import IngredientCard, { IngredientCardProps } from './components/IngredientCard'
 import FilterToggle from './components/FiltersComponent';
+import AddIngredientForm from './components/AddIngredientForm';
 import { BASE_URL } from './constants';
-import CameraComponent from './components/CapturePhotoComponent';
 
 
 
@@ -11,7 +11,7 @@ function App() {
   const [ingredientsList, setIngredientsList] = useState<IngredientCardProps[]>([]);
 
   const fetchData = async () => {
-    const ingredientsEndpoint = `${BASE_URL}/ingredient/all`
+    const ingredientsEndpoint = `${BASE_URL}/ingredients`
     const requestOptions = {
       method: 'GET',
       headers: {
@@ -45,8 +45,10 @@ function App() {
 
 
             <div>
-              <FilterToggle setIngredientsList={setIngredientsList} />
-              <CameraComponent/>
+              <div className='flex items-start gap-4'>
+                <FilterToggle setIngredientsList={setIngredientsList} />
+                <AddIngredientForm onCreated={fetchData} />
+              </div>
             </div>
 
 

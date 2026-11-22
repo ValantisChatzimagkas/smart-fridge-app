@@ -1,25 +1,18 @@
-# Stage 1: Build the app
-FROM node:18 AS build
-
+# Stage 1: build the static bundle
+FROM node:22-alpine AS build
 WORKDIR /app
 
-# Copy package files and install dependencies
 COPY package*.json ./
-RUN npm install
+RUN npm ci
 
-# Copy source files and build
+# The API URL is baked into the bundle at build time.
+ARG VITE_API_URL=http://localhost:8000
+ENV VITE_API_URL=$VITE_API_URL
+
 COPY . .
 RUN npm run build
 
-# Stage 2: Serve with Nginx
+# Stage 2: serve with nginx
 FROM nginx:alpine
-
-# Remove default nginx static assets and replace with Vite build
-RUN rm -rf /usr/share/nginx/html/*
 COPY --from=build /app/dist /usr/share/nginx/html
-
-# Expose port
 EXPOSE 80
-
-# Start Nginx
-CMD ["nginx", "-g", "daemon off;"]

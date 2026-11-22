@@ -19,5 +19,15 @@ jobs:
           cache: npm
           cache-dependency-path: smart-fridge-app-ui/package-lock.json
       - run: npm ci
+      - run: npm run lint
       - name: Type-check and build
         run: npm run build
+
+  backend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: astral-sh/setup-uv@v10.4.0
+      - run: uv sync
+      - run: uvx ruff@0.17.6 check .
+      - run: uv run pytest -q

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Filter, X, Check } from 'lucide-react';
 import { BASE_URL } from "../constants";
+import type { IngredientCardProps } from "./IngredientCard";
 
 type FilterState = {
   expired: boolean;
@@ -9,7 +10,7 @@ type FilterState = {
 };
 
 interface FiltersComponentProps {
-  setIngredientsList: React.Dispatch<React.SetStateAction<any[]>>;
+  setIngredientsList: React.Dispatch<React.SetStateAction<IngredientCardProps[]>>;
 
 }
 
@@ -55,12 +56,12 @@ const ToggleableFilterComponent = ({ setIngredientsList }: FiltersComponentProps
   
   const fetchDataWithFilters = async () => {
     const appliedFilters = Object.entries(filters)
-      .filter(([_, value]) => value)
+      .filter(([, value]) => value)
       .map(([key]) => `ingredient_status=${key}`)
       .join('&');
       
     if (appliedFilters !== "") {
-      const ingredientsEndpoint = `${BASE_URL}/ingredient/all?${appliedFilters}`;
+      const ingredientsEndpoint = `${BASE_URL}/ingredients?${appliedFilters}`;
       const requestOptions = {
         method: 'GET',
         headers: {
