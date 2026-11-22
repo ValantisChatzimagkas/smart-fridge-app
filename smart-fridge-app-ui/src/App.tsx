@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import IngredientCard, { IngredientCardProps } from './components/IngredientCard'
 import FilterToggle from './components/FiltersComponent';
 import { BASE_URL } from './constants';
-import CameraComponent from './components/CapturePhotoComponent';
 
 
 
@@ -46,7 +45,6 @@ function App() {
 
             <div>
               <FilterToggle setIngredientsList={setIngredientsList} />
-              <CameraComponent/>
             </div>
 
 

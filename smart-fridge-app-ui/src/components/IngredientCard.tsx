@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { BASE_URL } from "../constants";
 
 export enum IngredientStatus {
     EXPIRED = "expired",
@@ -76,7 +77,10 @@ const IngredientCard: React.FC<IngredientCardComponentProps> = ({ ingredient, on
      * @param key key that will be updated
      * @param value value that will be assigned
      */
-    const updateNestedQuantity = (key: keyof IngredientCardProps["quantity"], value: any) => {
+    const updateNestedQuantity = <K extends keyof IngredientCardProps["quantity"]>(
+        key: K,
+        value: IngredientCardProps["quantity"][K]
+    ) => {
         setEditedIngredient((prev) => ({
             ...prev,
             quantity: {
@@ -114,7 +118,7 @@ const IngredientCard: React.FC<IngredientCardComponentProps> = ({ ingredient, on
      */
     const handleSave = async () => {
         try {
-            const response = await fetch(`http://localhost:8000/ingredient/ingredients/${editedIngredient._id}`, {
+            const response = await fetch(`${BASE_URL}/ingredient/ingredients/${editedIngredient._id}`, {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json"
@@ -146,7 +150,7 @@ const IngredientCard: React.FC<IngredientCardComponentProps> = ({ ingredient, on
      */
     const handleDelete = async () => {
         try {
-            const response = await fetch(`http://localhost:8000/ingredient/${editedIngredient._id}`, {
+            const response = await fetch(`${BASE_URL}/ingredient/${editedIngredient._id}`, {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json"
